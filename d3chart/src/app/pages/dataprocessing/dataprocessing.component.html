@@ -1,0 +1,127 @@
+<script src="dataprocessing.component.ts"></script>
+<div class="page-heading">
+  <h1 class="page-title">Data Processing</h1>
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">
+      <a href="index.html">
+        <i class="la la-home font-20"></i>
+      </a>
+    </li>
+    <li class="breadcrumb-item">Pages</li>
+    <li class="breadcrumb-item">Data Processing</li>
+  </ol>
+</div>
+<div class="page-content fade-in-up">
+  <div class="ibox">
+    <form id="generateForm" [formGroup]="generateForm" (ngSubmit)="Generate();" class="form-info ng-untouched ng-pristine ng-valid"
+      novalidate>
+      <div class="ibox-head">
+        <div class="ibox-title">Data Set Generation</div>
+      </div>
+      <div class="ibox-body">
+        <div class="row">
+          <div class="form-group col-md-6 row">
+            <label class="col-sm-3 col-form-label">Target Set:&nbsp;# of nodes
+              <span class="required">*</span>
+            </label>
+            <div class="col-sm-9">
+
+              <input type="number" name="targetNode" formControlName="targetNode" class="form-control" placeholder="Please enter an integer between 1 and 5000."
+                required >
+              <div *ngIf="generateFormSubmitted && f.targetNode.errors" class="help-block error">
+                <div *ngIf="f.targetNode.errors.required">Please enter an integer between 1 and 5000.</div>
+                <div *ngIf="f.targetNode.errors.max">Need to be not greater than 5000.</div>
+                <div *ngIf="f.targetNode.errors.min">Need to be greater or equal to 1.</div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group col-md-6 row">
+            <label class="col-sm-3 col-form-label">Auxiliary Set:&nbsp;# of nodes
+              <span class="required">*</span>
+            </label>
+            <div class="col-sm-8 all-color-box">
+              <input type="text" name="auxNode" formControlName="auxNode" class="color-code form-control" placeholder="Please enter the Auxiliary Set">
+              <div *ngIf="generateFormSubmitted && f.auxNode.errors" class="help-block error">
+                <div *ngIf="f.auxNode.errors.required">Please provide No of Auxiliary Set.</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group col-md-6 row">
+            <label class="col-sm-3 col-form-label">Overlap Percentage (of Targets)
+              <span class="required">*</span>
+            </label>
+            <div class="col-sm-9">
+              <input type="number" step="0.01" name="overlapPresentage" formControlName="overlapPresentage" class="form-control" max="100" placeholder="Please provide a value between 0 and 100.">
+              <div *ngIf="generateFormSubmitted && f.overlapPresentage.errors" class="help-block error">
+                <div *ngIf="f.overlapPresentage.errors.required">Please provide a value between 0 and 100.</div>
+                <div *ngIf="f.overlapPresentage.errors.max">Overlap percentage should not exceed 100%.</div>
+                <div *ngIf="f.overlapPresentage.errors.min">Overlap percentage should be greater than or eaqual to 0%.</div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group col-md-6 row">
+            %
+          </div>
+        </div>
+      </div>
+      <div class="ibox-footer">
+        <button class="btn btn-info mr-2" type="submit">
+          <i class="ti-save-alt"></i>Generate</button>
+      </div>
+    </form>
+  </div>
+  <div class="ibox">
+    <form id="anonymizeForm" [formGroup]="anonymizeForm" (ngSubmit)="Anonymize();" class="form-info ng-untouched ng-pristine ng-valid"
+      novalidate>
+      <div class="ibox-head">
+        <div class="ibox-title">Anonymization</div>
+      </div>
+      <div class="ibox-body">
+        <div class="row">
+          <div class="form-group col-md-12 row">
+            <label class="col-sm-3 col-form-label">Profile Attributes</label>
+          </div>
+          <div class="form-group col-md-12 row">
+            <label class="col-sm-3 col-form-label">Year of Birth:&nbsp;generation range
+              <span class="required">*</span>
+            </label>
+            <div class="col-sm-6">
+              <select id="yearRange" name="yearRange" formControlName="yearRange" class="form-control" placeholder="Please select Year range"
+              required>
+                <option value="" selected="selected">Please select Year range</option>
+                <option value="5">5</option>
+                <option value="10">10</option>
+                <option value="15">15</option>
+                <option value="20">20</option>
+              </select>
+              <app-field-error-display [form]="anonymizeForm" [submitted]="anonymizeFormSubmitted" fieldName="yearRange" requiredErrorMsg="Please select Year range.">
+              </app-field-error-display>
+            </div>
+          </div>
+          <div class="form-group col-md-12 row">
+            <label class="col-sm-3 col-form-label">Gender:&nbsp;posibility of retaining
+              <span class="required">*</span>
+            </label>
+            <div class="col-sm-6">
+              <input type="number" name="genderRetain" formControlName="genderRetain" class="color-code form-control" placeholder="Please provide an integer between 0 and 100.">
+              <div *ngIf="anonymizeFormSubmitted && f1.genderRetain.errors" class="help-block error">
+                <div *ngIf="f1.genderRetain.errors.required">Please provide an integer between 0 and 100.</div>
+                <div *ngIf="f1.genderRetain.errors.max">Overlap percentage should not exceed 100%.</div>
+                <div *ngIf="f1.genderRetain.errors.min">Overlap percentage should be greater than or eaqual to 0%.</div>
+              </div>
+            </div>
+            <div class="form-group col-md-3 row">
+              %
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="ibox-footer">
+        <button class="btn btn-info mr-2" type="submit">
+          <i class="ti-save-alt"></i>Anonymize</button>
+      </div>
+    </form>
+  </div>
+  <p-growl [(value)]="msgs"></p-growl>
+</div>

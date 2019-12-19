@@ -1,0 +1,5 @@
+<div *ngIf="isError(fieldName)" class="help-block error">
+  <div *ngIf="isRequired(fieldName)">{{ requiredErrorMsg }}</div>
+  <div *ngIf="isMin(fieldName)"> {{ minErrorMsg }} </div>
+  <div *ngIf="isMax(fieldName)"> {{ maxErrorMsg }}</div>
+</div>

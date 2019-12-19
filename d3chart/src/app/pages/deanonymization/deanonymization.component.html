@@ -1,0 +1,119 @@
+<div class="page-heading">
+  <h1 class="page-title">De-Anonymization</h1>
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">
+      <a href="index.html">
+        <i class="la la-home font-20"></i>
+      </a>
+    </li>
+    <li class="breadcrumb-item">Pages</li>
+    <li class="breadcrumb-item">De-Anonymization</li>
+  </ol>
+</div>
+<div class="page-content fade-in-up">
+  <div class="ibox">
+    <form id="startForm" [formGroup]="startForm" (ngSubmit)="Start();" class="form-info ng-untouched ng-pristine ng-valid"
+      novalidate>
+      <div class="ibox-head">
+        <div class="ibox-title">De-Anonymization</div>
+      </div>
+      <div class="ibox-body">
+        <div class="row">
+          <div class="form-group col-md-12 row">
+            <label class="col-sm-3 col-form-label"># of Seeds
+              <span class="required">*</span>
+            </label>
+            <div class="col-sm-4">
+              <div>
+                <label class="col-form-labelcol-form-label">Please provide # Seeds less than or equal to {{maxSeeds}}</label>
+              <input type="number" name="noofSeeds" value="{{maxSeeds}}" formControlName="noofSeeds" class="form-control" placeholder="Please enter No of Seeds" required>
+            </div>
+            </div>
+            <div class="col-sm-4">
+              <label class="radio radio-inline radio-info">
+                <input name="keepPrev" type="checkbox" formControlName="keepPrev" (change)="disableSeeds($event)">&nbsp;Keep Previous Seeds
+              </label>
+            </div>
+          </div>
+          <div class="form-group col-md-12 row">
+            <label class="col-sm-3 col-form-label">Attributes to be used for DA:</label>
+            <span class="required">*</span>
+          </div>
+          <div class="form-group col-md-12 row">
+            <div class="col-md-6">
+              <label class="col-sm-3 col-form-label">Profile
+              </label>
+              <div class="col-sm-9">
+                <label class="radio radio-inline radio-info">
+                  <input name="profile" type="checkbox" formControlName="profile" value="true"> YOB, Gender
+                </label>
+                <app-field-error-display [form]="startForm" [submitted]="startFormSubmitted" fieldName="profile">
+                </app-field-error-display>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <label class="col-sm-3 col-form-label">Structure
+
+              </label>
+              <div class="col-sm-9">
+                <label class="radio radio-inline radio-info">
+                  <input name="structure" type="checkbox" formControlName="structure"> Degree, Centrality
+                </label>
+                <app-field-error-display [form]="startForm" [submitted]="startFormSubmitted" fieldName="structure">
+                </app-field-error-display>
+              </div>
+            </div>
+          </div>
+          <div class="form-group col-md-12 row">
+
+          </div>
+        </div>
+      </div>
+      <div class="ibox-footer">
+        <button class="btn btn-info mr-2" type="submit">
+          <i class="ti-save-alt"></i>Start</button>
+      </div>
+    </form>
+  </div>
+  <div class="ibox">
+      <div class="ibox-body">
+        <div class="row map_frame" *ngIf="graphDisplay">
+            <div id="cy"></div>
+        </div>
+        <div class="row">
+          <textarea rows="7" cols="45" id="edgelabel"></textarea>
+        </div>
+        <div class="row">
+          <div class="form-group col-md-6 row">
+            <label class="col-sm-4 col-form-label"># of nodes in T
+            </label>
+            <div class="col-sm-4">
+                <label value="GlyElements.analysis.noofT">{{GlyElements.analysis.noofT}}</label>
+            </div>
+          </div>
+          <div class="form-group col-md-6 row">
+            <label class="col-sm-4 col-form-label"># of nodes in A
+            </label>
+            <div class="col-sm-4">
+              <label value="GlyElements.analysis.noofA">{{GlyElements.analysis.noofA}}</label>
+            </div>
+          </div>
+          <div class="form-group col-md-6 row">
+            <label class="col-sm-4 col-form-label"># of nodes Matched
+            </label>
+            <div class="col-sm-4">
+                <label value="GlyElements.analysis.noMatched">{{GlyElements.analysis.noMatched}}</label>
+            </div>
+          </div>
+          <div class="form-group col-md-6 row">
+            <label class="col-sm-6 col-form-label"># of nodes Accurately Matched
+            </label>
+            <div class="col-sm-4">
+                <label value="GlyElements.analysis.noAccuracy">{{GlyElements.analysis.noAccuracy}}</label>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+  <p-growl [(value)]="msgs"></p-growl>
+</div>

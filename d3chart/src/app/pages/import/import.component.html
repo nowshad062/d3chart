@@ -1,0 +1,46 @@
+<div class="page-heading">
+  <h1 class="page-title">Import</h1>
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">
+      <a href="index.html">
+        <i class="la la-home font-20"></i>
+      </a>
+    </li>
+    <li class="breadcrumb-item">Pages</li>
+    <li class="breadcrumb-item">Import</li>
+  </ol>
+</div>
+<div class="page-content fade-in-up">
+  <div class="ibox">
+    <form id="importForm" [formGroup]="importForm" novalidate (ngSubmit)="save();">
+      <div class="ibox-head">
+        <div class="ibox-title">Import Master Record</div>
+      </div>
+      <div class="ibox-body">
+        <div class="row">
+          <div class="form-group">
+            Download sample csv file from the link
+            <a href="{{apiURL}}/template">here</a> and upload using the same format.
+          </div>
+        </div>
+        <!--div class="row">
+          <div class="form-group">
+            <label class="col-sm-12 col-form-label">CSV File Upload</label>
+            <div class="col-sm-12">
+              <input class="form-control" id='csvfile' name="csvfile" (change)="onFileChange($event)" formcontrolname="csvfile" placeholder="please upload file to import"
+                required type="file" accept=".csv">
+            </div>
+            <div *ngIf="submitted && f.csvfile.errors" class="help-block error col-sm-12">
+              <div *ngIf="f.csvfile.errors.required">CSV File is required.</div>
+            </div>
+          </div>
+        </div-->
+      </div>
+      <div class="ibox-footer">
+        <button class="btn btn-info mr-2" type="submit">
+          <i class="ti-save-alt"></i>Upload</button>
+      </div>
+    </form>
+    <p-growl [(value)]="msgs"></p-growl>
+  </div>
+</div>

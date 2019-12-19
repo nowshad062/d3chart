@@ -1,0 +1,291 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "1.0.0",
+        "title": "De-Anonymization"
+    },
+    "host": "localhost:5000",
+    "basePath": "/api/v1",
+    "tags": [
+        {
+            "name": "Template",
+            "description": "Sample CSV format template to upload used data"
+        },
+        {
+            "name": "Import",
+            "description": "Import user data in to the system"
+        },
+        {
+            "name": "Generate",
+            "description": "Generate random data"
+        },
+        {
+            "name": "GeneratedData",
+            "description": "Fetch Generated random data"
+        }
+    ],
+    "schemes": [
+        "http"
+    ],
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "paths": {
+        "/template": {
+            "get": {
+                "tags": [
+                    "Template"
+                ],
+                "summary": "Get sample CSV format template to upload user data",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Template"
+                        }
+                    }
+                }
+            }
+        },
+        "/import": {
+            "post": {
+                "tags": [
+                    "Import"
+                ],
+                "description": "Upload CSV file",
+                "consumes": [
+                    "multipart/form-data"
+                ],
+                "parameters": [
+                    {
+                        "name": "file",
+                        "in": "formData",
+                        "description": "upload csv file",
+                        "required": true,
+                        "type": "file",
+                        "x-mimetype": "application/csv"
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "records have been successfully uploaded",
+                        "schema": {
+                            "$ref": "#/definitions/Import"
+                        }
+                    },
+                    "400": {
+                        "description": "No files were uploaded"
+                    }
+                }
+            }
+        },
+        "/generate": {
+            "post": {
+                "tags": [
+                    "Generate"
+                ],
+                "description": "Generate random data",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "Filter object for generate records",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/GenerateRequest"
+                        }
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully Generated Record",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/definitions/GenerateResult"
+                        }
+                    }
+                }
+            }
+        },
+        "/generate1": {
+            "post": {
+                "tags": [
+                    "Generate"
+                ],
+                "description": "Generate random data",
+                "parameters": [
+                    {
+                        "name": "noOfRecords",
+                        "in": "formData",
+                        "description": "No of Records",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    {
+                        "name": "year",
+                        "in": "formData",
+                        "description": "Year",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "round",
+                        "in": "formData",
+                        "description": "Numbers to Round(Floor)",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    {
+                        "name": "percentage",
+                        "in": "formData",
+                        "description": "Percentage",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    {
+                        "name": "filterGender",
+                        "in": "formData",
+                        "description": "Gender Filter",
+                        "type": "boolean",
+                        "default": true
+                    },
+                    {
+                        "name": "filterYear",
+                        "in": "formData",
+                        "description": "Year Filter",
+                        "type": "boolean",
+                        "default": false
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully Generated Record",
+                        "schema": {
+                            "$ref": "#/definitions/Generate"
+                        }
+                    }
+                }
+            }
+        },
+        "/getGeneratedData": {
+            "get": {
+                "tags": [
+                    "GeneratedData"
+                ],
+                "summary": "Fetch Generated random data",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/GeneratedData"
+                        }
+                    },
+                    "500": {
+                        "description": "Some error occurred while retrieving data"
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "GenerateRequest": {
+            "type": "object",
+            "required": [
+                "noOfRecords",
+                "year",
+                "round",
+                "percentage",
+                "filterGender"
+            ],
+            "properties": {
+                "noOfRecords": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "year": {
+                    "type": "string"
+                },
+                "round": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "percentage": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "filterGender": {
+                    "type": "boolean",
+                    "default": true
+                },
+                "filterYear": {
+                    "type": "boolean",
+                    "default": false
+                },
+                "gId": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "filter": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "GenerateResult": {
+            "type": "object",
+            "properties": {
+                "_id": {
+                    "type": "string"
+                },
+                "dob": {
+                    "type": "string"
+                },
+                "year": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "start_year": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "end_year": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "gender": {
+                    "type": "string"
+                },
+                "filter": {
+                    "type": "string"
+                },
+                "createdAt": {
+                    "type": "string"
+                },
+                "updatedAt": {
+                    "type": "string"
+                },
+                "__v": {
+                    "type": "integer",
+                    "format": "int32"
+                }
+            }
+        }
+    }
+}

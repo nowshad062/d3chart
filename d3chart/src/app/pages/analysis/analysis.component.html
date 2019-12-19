@@ -1,0 +1,135 @@
+<div class="page-heading">
+  <h1 class="page-title">Analysis</h1>
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">
+      <a href="index.html">
+        <i class="la la-home font-20"></i>
+      </a>
+    </li>
+    <li class="breadcrumb-item">Pages</li>
+    <li class="breadcrumb-item">Analysis</li>
+  </ol>
+</div>
+<div class="page-content fade-in-up">
+  <div class="ibox">
+    <form id="analyzeForm" [formGroup]="analyzeForm" (ngSubmit)="Analyze();" class="form-info ng-untouched ng-pristine ng-valid"
+      novalidate>
+      <div class="ibox-head">
+        <div class="ibox-title">Analysis</div>
+      </div>
+      <div class="ibox-body">
+        <div class="row">
+          <div class="form-group col-md-12 row">
+            <label class="col-sm-2 col-form-label">Date and Time Filter:
+              <span class="required">*</span>
+            </label>
+            <div class="col-sm-4">
+              <span>Begin&nbsp;</span>
+              <p-calendar formControlName="begin" dateFormat="mm/dd/yy" [showIcon]="true" placeholder="mm/dd/yyyy"></p-calendar>
+              <app-field-error-display [form]="analyzeForm" [submitted]="analyzeFormSubmitted" fieldName="begin"
+                requiredErrorMsg="Please select Begin Date.">
+              </app-field-error-display>
+            </div>
+            <div class="col-sm-4">
+              <span>End&nbsp;</span>
+              <p-calendar formControlName="end" dateFormat="mm/dd/yy" [showIcon]="true" placeholder="mm/dd/yyyy"></p-calendar>
+              <app-field-error-display [form]="analyzeForm" [submitted]="analyzeFormSubmitted" fieldName="end"
+                requiredErrorMsg="Please select End Date.">
+              </app-field-error-display>
+            </div>
+            <div class="col-sm-2">
+              <button class="btn btn-info mr-2" type="submit">
+                <i class="ti-save-alt"></i>Update</button>
+            </div>
+          </div>
+          <div class="form-group col-md-12 row">
+            <label class="col-sm-12 col-form-label">Table After Averaging and Grouping (Note: For category, 0 means "YOB, Gender" is checked for deanonymization; 1 means "Degree, Centrality" is checked; and 2 means both are checked.)</label>
+          </div>
+
+          <!-- table starts -->
+          <div class="form-group col-md-12 row">
+            <p-table #dt [value]="filtered_array" [rows]="no_of_records" [paginator]="true" selectionMode="false"
+              [resizableColumns]="true" [responsive]="true" [globalFilterFields]="['noSeeds', 'configuration', 'accuracy', 'records', 'timeStamp']">
+              <ng-template pTemplate="header">
+                <tr>
+                  <th pResizableColumn [pSortableColumn]="'timeStamp'"># Time Stamp
+                    <p-sortIcon [field]="timeStamp"></p-sortIcon>
+                  </th>
+                  <th pResizableColumn [pSortableColumn]="'noSeeds'"># of Seeds
+                    <p-sortIcon [field]="noSeeds"></p-sortIcon>
+                  </th>
+                  <th pResizableColumn [pSortableColumn]="'configuration'">Configuration
+                    <p-sortIcon [field]="configuration"></p-sortIcon>
+                  </th>
+                  <th pResizableColumn [pSortableColumn]="'accuracy'">Accuracy
+                    <p-sortIcon [field]="accuracy"></p-sortIcon>
+                  </th>
+                  <!--th pResizableColumn [pSortableColumn]="'records'"># of Record
+                    <p-sortIcon [field]="records"></p-sortIcon>
+                  </th-->
+
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-i="rowIndex" let-filt>
+                <tr>
+                  <td class="ui-resizable-column">{{filt.timeStamp | date: 'MM-yyyy-dd HH:mm'}}</td>
+                  <td class="ui-resizable-column">{{filt.noSeeds}}</td>
+                  <td class="ui-resizable-column">{{filt.configuration}}</td>
+                  <td class="ui-resizable-column">{{filt.accuracy}}</td>
+                  <!--td class="ui-resizable-column">{{filt.records}}</td-->
+
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="emptymessage">
+                <tr>
+                  <td colspan="4">No Records Found</td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="ibox">
+    <form id="resultForm" [formGroup]="resultForm" (ngSubmit)="Result();" class="form-info ng-untouched ng-pristine ng-valid"
+      novalidate>
+      <div class="ibox-head">
+        <div class="ibox-title">Result</div>
+      </div>
+      <div class="ibox-body">
+        <div class="form-group col-md-12 row">
+          <label class="col-sm-3 col-form-label">Data Chart
+            <span class="required">*</span>
+          </label>
+          <div class="col-sm-6">
+            <label class="radio radio-inline radio-info" *ngFor="let choice of dataChart; let i=index">
+              <input name="dataChart" type="checkbox" [value]="choice.value" [formControlName]="choice.name" (change)="onCheckChange($event, 'dataChart')">
+              {{choice.name}}
+            </label>
+            <div *ngIf="submitted && f.dataChart.errors" class="help-block error">
+              <div *ngIf="f.dataChart.errors.required">Please select Data Chart.</div>
+            </div>
+          </div>
+          <div class="col-sm-3">
+            <button class="btn btn-info mr-2" type="submit">
+              <i class="ti-save-alt"></i>Analyze</button>
+          </div>
+        </div>
+        <div *ngIf="graphDisplay">
+          <div class="row" *ngIf="this.resultForm.value.filterSeed == 1">
+            <ngx-charts-bar-vertical-2d [view]="view" [scheme]="colorScheme" [schemeType]="schemeType" [results]="seedData"
+              [gradient]="gradient" [xAxis]="showXAxis" [yAxis]="showYAxis" [legend]="showLegend" [showXAxisLabel]="showXAxisLabel"
+              [showYAxisLabel]="showYAxisLabel" [xAxisLabel]="xAxisLabelChart1" [yAxisLabel]="yAxisLabel"></ngx-charts-bar-vertical-2d>
+          </div>
+          <div class="row" *ngIf="this.resultForm.value.filterConfiguration == 1">
+            <ngx-charts-bar-vertical-2d [view]="view" [scheme]="colorScheme" [schemeType]="schemeType" [results]="configurationData"
+              [gradient]="gradient" [xAxis]="showXAxis" [yAxis]="showYAxis" [legend]="showLegend" [showXAxisLabel]="showXAxisLabel"
+              [showYAxisLabel]="showYAxisLabel" [xAxisLabel]="xAxisLabelChart2" [yAxisLabel]="yAxisLabel"></ngx-charts-bar-vertical-2d>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <p-growl [(value)]="msgs"></p-growl>
+</div>

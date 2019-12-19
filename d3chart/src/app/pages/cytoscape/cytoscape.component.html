@@ -1,0 +1,63 @@
+<!-- <label for="nodes">Nodes:</label>
+<input name="nodes" type="text" [(ngModel)]="nodes" placeholder="range" />
+<button (click)="getStats()">Get Stats</button>
+<br/><br/>
+<div class="cytograph" *ngIf="graphDisplay">
+    <ngx-cytoscape id="grp" [elements]="graphData"></ngx-cytoscape>
+</div>
+<div id="cy"></div> -->
+
+
+<div class="page-heading">
+    <h1 class="page-title">Cytoscape</h1>
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="index.html">
+                <i class="la la-home font-20"></i>
+            </a>
+        </li>
+        <li class="breadcrumb-item">Graph</li>
+        <li class="breadcrumb-item">Cytoscape</li>
+    </ol>
+</div>
+<div class="page-content fade-in-up">
+    <div class="ibox">
+        <form id="generateForm" [formGroup]="generateForm" (ngSubmit)="getStats();" class="form-info ng-untouched ng-pristine ng-valid"
+            novalidate>
+            <div class="ibox-head">
+                <div class="ibox-title">Cytoscape</div>
+            </div>
+            <div class="ibox-body">
+                <div class="row">
+                    <div class="form-group col-md-6 row">
+                        <label class="col-sm-3 col-form-label">Nodes
+                            <span class="required">*</span>
+                        </label>
+                        <div class="col-sm-9">
+                            <input type="number" name="nodes" formControlName="nodes" class="form-control" placeholder="Please enterNodes" required>
+                            <div *ngIf="submitted && f.nodes.errors" class="help-block error">
+                                <div *ngIf="f.nodes.errors.required">Please provide Nodes.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="ibox-footer">
+                <button class="btn btn-info mr-2" type="submit">
+                    <i class="ti-save-alt"></i>Get Stats</button>
+            </div>
+        </form>
+    </div>
+    <div class="ibox">
+        <div class="ibox-head">
+            <div class="ibox-title">Stat Display</div>
+        </div>
+        <div class="ibox-body">
+            <div class="row">
+                <div class="cytograph" *ngIf="graphDisplay">
+                    <ngx-cytoscape id="grp" [elements]="graphData"></ngx-cytoscape>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,145 @@
+<div class="page-heading">
+  <h1 class="page-title">Generate</h1>
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">
+      <a href="index.html">
+        <i class="la la-home font-20"></i>
+      </a>
+    </li>
+    <li class="breadcrumb-item">Pages</li>
+    <li class="breadcrumb-item">Generate</li>
+  </ol>
+</div>
+<div class="page-content fade-in-up">
+  <div class="ibox">
+    <form id="generateForm" [formGroup]="generateForm" (ngSubmit)="FilterRecord();" class="form-info ng-untouched ng-pristine ng-valid"
+      novalidate>
+      <div class="ibox-head">
+        <div class="ibox-title">Generate</div>
+      </div>
+      <div class="ibox-body">
+        <div class="row">
+          <div class="form-group col-md-6 row">
+            <label class="col-sm-3 col-form-label">No of Records
+              <span class="required">*</span>
+            </label>
+            <div class="col-sm-9">
+              <input type="number" name="noOfRecords" formControlName="noOfRecords" class="form-control" placeholder="Please enter No of Records"
+                required>
+              <!-- <div *ngIf="submitted && f.noOfRecords.errors" class="help-block error">
+                  <div *ngIf="f.noOfRecords.errors.required">Please provide No of Records.</div>
+              </div> -->
+              <app-field-error-display [form]="generateForm" [submitted]="submitted" fieldName="noOfRecords" requiredErrorMsg="Please provide No of Records.">
+              </app-field-error-display>
+            </div>
+          </div>
+          <div class="form-group col-md-6 row">
+            <label class="col-sm-3 col-form-label">Year
+              <span class="required">*</span>
+            </label>
+            <div class="col-sm-8 all-color-box">
+              <input type="text" name="year" formControlName="year" class="color-code form-control" placeholder="Please enter the Year">
+              <div *ngIf="submitted && f.year.errors" class="help-block error">
+                <div *ngIf="f.year.errors.required">Please provide Year.</div>
+              </div>
+              <!-- <app-field-error-display [displayError]="isFieldValid('year')" errorMsg="Please provide Year.">
+              </app-field-error-display> -->
+            </div>
+          </div>
+          <div class="form-group col-md-6 row">
+            <label class="col-sm-3 col-form-label">Numbers to Round(Floor)
+              <span class="required">*</span>
+            </label>
+            <div class="col-sm-9">
+              <input type="number" name="round" formControlName="round" class="form-control" placeholder="Please enter the Numbers to Round(Floor)">
+              <div *ngIf="submitted && f.round.errors" class="help-block error">
+                <div *ngIf="f.round.errors.required">Please provide Numbers to Round(Floor).</div>
+              </div>
+              <!-- <app-field-error-display [displayError]="isFieldValid('round')" errorMsg="Please provide Round Numbers to (Floor).">
+              </app-field-error-display> -->
+            </div>
+          </div>
+          <div class="form-group col-md-6 row">
+            <label class="col-sm-3 col-form-label">Percentage
+              <span class="required">*</span>
+            </label>
+            <div class="col-sm-8 all-color-box">
+              <input type="number" name="percentage" formControlName="percentage" class="color-code form-control" placeholder="Please enter the Percentage">
+              <div *ngIf="submitted && f.percentage.errors" class="help-block error">
+                <div *ngIf="f.percentage.errors.required">Please provide Percentage.</div>
+              </div>
+              <!-- <app-field-error-display [displayError]="isFieldValid('percentage')" errorMsg="Please provide Percentage.">
+              </app-field-error-display> -->
+            </div>
+          </div>
+          <div class="form-group col-md-6 row">
+            <label class="col-sm-3 col-form-label">Filter
+              <span class="required">*</span>
+            </label>
+            <div class="col-sm-9">
+              <label class="radio radio-inline radio-info" *ngFor="let choice of filter; let i=index">
+                <input name="filter" type="checkbox" [value]="choice.value" [formControlName]="choice.name" (change)="onCheckChange($event)"> {{choice.name}}
+              </label>
+              <div *ngIf="submitted && f.filter.errors" class="help-block error">
+                <div *ngIf="f.filter.errors.required">Please select Filter.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="ibox-footer">
+        <button class="btn btn-info mr-2" type="submit">
+          <i class="ti-save-alt"></i>Process</button>
+      </div>
+    </form>
+  </div>
+  <div class="ibox">
+    <div class="ibox-head">
+      <div class="ibox-title">Process Result</div>
+    </div>
+    <div class="ibox-body">
+      <!-- table starts -->
+      <div class="table-responsive row">
+        <p-table #dt [value]="filtered_array" [rows]="no_of_records" [paginator]="true" selectionMode="false" [resizableColumns]="true"
+          [responsive]="true" [globalFilterFields]="['_id', 'year', 'start_year', 'end_year', 'gender']">
+          <ng-template pTemplate="header">
+            <tr>
+              <th pResizableColumn style="width:70px">Sl.No</th>
+              <th pResizableColumn [pSortableColumn]="'_id'">ID
+                <p-sortIcon [field]="_id"></p-sortIcon>
+              </th>
+              <th pResizableColumn [pSortableColumn]="'year'">Year
+                <p-sortIcon [field]="year"></p-sortIcon>
+              </th>
+              <th pResizableColumn [pSortableColumn]="'start_year'">Start Year
+                <p-sortIcon [field]="start_year"></p-sortIcon>
+              </th>
+              <th pResizableColumn [pSortableColumn]="'end_year'">End Year
+                <p-sortIcon [field]="end_year"></p-sortIcon>
+              </th>
+              <th pResizableColumn style="width: 90px" [pSortableColumn]="'gender'">Gender
+                <p-sortIcon [field]="gender"></p-sortIcon>
+              </th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-i="rowIndex" let-filt>
+            <tr>
+              <td class="ui-resizable-column">{{i + 1}}</td>
+              <td class="ui-resizable-column">{{filt._id}}</td>
+              <td class="ui-resizable-column">{{filt.year}}</td>
+              <td class="ui-resizable-column">{{filt.start_year}}</td>
+              <td class="ui-resizable-column">{{filt.end_year}}</td>
+              <td class="ui-resizable-column">{{filt.gender}}</td>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="emptymessage">
+            <tr>
+              <td colspan="6">No Records Found</td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+    </div>
+  </div>
+  <p-growl [(value)]="msgs"></p-growl>
+</div>

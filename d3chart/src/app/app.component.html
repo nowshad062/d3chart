@@ -1,0 +1,65 @@
+<!-- BEGIN PAGE LOADER  -->
+<div class="preloader-backdrop">
+  <div class="page-preloader">Loading</div>
+</div>
+<!-- END PAGE LOADER  -->
+
+<!-- BEGIN PAGE  -->
+<router-outlet></router-outlet>
+<!-- END PAGE  -->
+
+<!-- START SEARCH PANEL-->
+<form class="search-top-bar" action="javascript:;" method="POST">
+  <input class="form-control search-input" type="text" placeholder="Search...">
+  <button class="reset input-search-icon">
+    <i class="ti-search"></i>
+  </button>
+  <button class="reset input-search-close" type="button">
+    <i class="ti-close"></i>
+  </button>
+</form>
+<!-- END SEARCH PANEL -->
+
+<!-- BEGIN PAGA BACKDROP -->
+<div class="sidenav-backdrop backdrop"></div>
+<!-- END PAGA BACKDROP -->
+
+<!-- SCROLL TOP -->
+<div class="to-top">
+  <i class="fa fa-angle-double-up"></i>
+</div>
+<!-- END SCROLL TOP -->
+
+<!-- SESSION TIMEOUT MODAL -->
+<div class="modal fade" id="session-dialog">
+  <div class="modal-dialog" style="width:400px;" role="document">
+    <div class="modal-content timeout-modal">
+      <div class="modal-body">
+        <button class="close" data-dismiss="modal" aria-label="Close"></button>
+        <div class="text-center mt-3 mb-4">
+          <i class="ti-lock timeout-icon"></i>
+        </div>
+        <div class="text-center h4 mb-3">Set Auto Logout</div>
+        <p class="text-center mb-4">You are about to be signed out due to inactivity.
+          <br>Select after how many minutes of inactivity you log out of the system.</p>
+        <div id="timeout-reset-box" style="display:none;">
+          <div class="form-group text-center">
+            <button class="btn btn-danger btn-fix btn-air" id="timeout-reset">Deactivate</button>
+          </div>
+        </div>
+        <div id="timeout-activate-box">
+          <form id="timeout-form" action="javascript:;">
+            <div class="form-group pl-3 pr-3 mb-4">
+              <input class="form-control form-control-line" type="text" name="timeout_count" placeholder="Minutes" id="timeout-count">
+            </div>
+            <div class="form-group text-center">
+              <button class="btn btn-primary btn-fix btn-air" id="timeout-activate">Activate</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- END SESSION TIMEOUT MODAL -->
+<ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="default" color="#fff" type="ball-atom"></ngx-spinner>
